@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.item_note.view.*
 import java.util.*
 
 class NotesAdapter(private val context: Context) : RecyclerView.Adapter<NotesAdapter.NotesViewHolder>() {
+
     private var notes: List<Note> = ArrayList()
     private var isRefreshing = false
 
@@ -34,8 +35,8 @@ class NotesAdapter(private val context: Context) : RecyclerView.Adapter<NotesAda
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NotesViewHolder {
-        val view = context.layoutInflater.inflate(R.layout.item_note, parent, false)
-        return NotesViewHolder(view)
+        return NotesViewHolder(context.layoutInflater.inflate(R.layout
+                .item_note, parent, false))
     }
 
     override fun onBindViewHolder(holder: NotesViewHolder, position: Int) {
@@ -47,7 +48,7 @@ class NotesAdapter(private val context: Context) : RecyclerView.Adapter<NotesAda
         if (isRefreshing) return
         isRefreshing = true
         DataStore.execute {
-            val notes = DataStore.getNotes().all
+            val notes = DataStore.notes.getAll()
             Handler(Looper.getMainLooper()).post {
                 this@NotesAdapter.notes = notes
                 notifyDataSetChanged()
